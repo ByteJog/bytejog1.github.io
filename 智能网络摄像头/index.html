@@ -1,0 +1,58 @@
+<!doctype html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <meta name="theme-color" content="#4F7DC9">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Multiple object detection using pre trained model in TensorFlow.js</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+    
+ 
+    <!-- Import the webpage's stylesheet -->
+    <link rel="stylesheet" href="styles/style.css">
+
+</head>
+<body>
+    <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+    <google-codelab codelab-gaid=""
+                  id="odelab-4-codelab-markdown"
+                  title="智能摄像头"
+                  environment="web"
+                  feedback-link="https://github.com/Mrc0113/codelab-4-codelab">
+
+        <google-codelab-step label="" duration="2">
+            <h1>Multiple object detection using pre trained model in TensorFlow.js</h1>
+
+            <p>Wait for the model to load before clicking the button to enable the webcam - at which point it will become visible to use.</p>
+            
+            <section id="demos" class="invisible">
+        
+                <p>Hold some objects up close to your webcam to get a real-time classification! When ready click "enable webcam" below and accept access to the webcam when the browser asks (check the top left of your window)</p>
+              
+                <div id="liveView" class="camView">
+                    <button id="webcamButton">Enable Webcam</button>
+                    <video id="webcam" autoplay width="640" height="480"></video>
+                </div>
+            </section>
+        </google-codelab-step>
+    
+    </google-codelab>
+
+    <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+    <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+    <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+    <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+    <!-- Import TensorFlow.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js" type="text/javascript"></script>
+    <!-- Load the coco-ssd model to use to recognize things in images -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
+    
+    <!-- Import the page's JavaScript to do some stuff -->
+    <script src="scripts/script.js"></script>
+</body>
+</html>
