@@ -12,7 +12,7 @@ header {
     text-align: center;
     padding: 20px 15%;    
     color: #5c5c5c;
-    background-color: white;
+    background: rgb(255, 255, 255);
     box-shadow: 0 3px 6px -3px #bdbdbd;
 }
 
