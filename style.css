@@ -6,17 +6,13 @@ html {
 
 body {
     margin: 0; 
-    background-image: url(images/www.jpg);
 }
 
 header {   
     text-align: center;
-    padding: 20px 15%;
-    
+    padding: 20px 15%;    
     color: #5c5c5c;
     box-shadow: 0 3px 6px -3px #bdbdbd;
-    background-image: url(images/www.jpg);
-    position: fixed;
 }
 
 header p{
