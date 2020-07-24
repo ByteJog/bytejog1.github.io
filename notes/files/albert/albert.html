@@ -1,0 +1,531 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title>（不完备）albert</title><link href='https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext' rel='stylesheet' type='text/css' /><style type='text/css'>html {overflow-x: initial !important;}:root { --bg-color:#ffffff; --text-color:#333333; --select-text-bg-color:#B5D6FC; --select-text-font-color:auto; --monospace:"Lucida Console",Consolas,"Courier",monospace; }
+html { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+body { margin: 0px; padding: 0px; height: auto; bottom: 0px; top: 0px; left: 0px; right: 0px; font-size: 1rem; line-height: 1.42857; overflow-x: hidden; background: inherit; tab-size: 4; }
+iframe { margin: auto; }
+a.url { word-break: break-all; }
+a:active, a:hover { outline: 0px; }
+.in-text-selection, ::selection { text-shadow: none; background: var(--select-text-bg-color); color: var(--select-text-font-color); }
+#write { margin: 0px auto; height: auto; width: inherit; word-break: normal; overflow-wrap: break-word; position: relative; white-space: normal; overflow-x: visible; padding-top: 40px; }
+#write.first-line-indent p { text-indent: 2em; }
+#write.first-line-indent li p, #write.first-line-indent p * { text-indent: 0px; }
+#write.first-line-indent li { margin-left: 2em; }
+.for-image #write { padding-left: 8px; padding-right: 8px; }
+body.typora-export { padding-left: 30px; padding-right: 30px; }
+.typora-export .footnote-line, .typora-export li, .typora-export p { white-space: pre-wrap; }
+@media screen and (max-width: 500px) {
+  body.typora-export { padding-left: 0px; padding-right: 0px; }
+  #write { padding-left: 20px; padding-right: 20px; }
+  .CodeMirror-sizer { margin-left: 0px !important; }
+  .CodeMirror-gutters { display: none !important; }
+}
+#write li > figure:last-child { margin-bottom: 0.5rem; }
+#write ol, #write ul { position: relative; }
+img { max-width: 100%; vertical-align: middle; }
+button, input, select, textarea { color: inherit; font: inherit; }
+input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px; }
+*, ::after, ::before { box-sizing: border-box; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p, #write pre { width: inherit; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p { position: relative; }
+p { line-height: inherit; }
+h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 4; }
+p { orphans: 4; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.6rem; }
+h4 { font-size: 1.4rem; }
+h5 { font-size: 1.2rem; }
+h6 { font-size: 1rem; }
+.md-math-block, .md-rawblock, h1, h2, h3, h4, h5, h6, p { margin-top: 1rem; margin-bottom: 1rem; }
+.hidden { display: none; }
+.md-blockmeta { color: rgb(204, 204, 204); font-weight: 700; font-style: italic; }
+a { cursor: pointer; }
+sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.7); color: rgb(85, 85, 85); border-radius: 4px; cursor: pointer; }
+sup.md-footnote a, sup.md-footnote a:hover { color: inherit; text-transform: inherit; text-decoration: inherit; }
+#write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; }
+figure { overflow-x: auto; margin: 1.2em 0px; max-width: calc(100% + 16px); padding: 0px; }
+figure > table { margin: 0px !important; }
+tr { break-inside: avoid; break-after: auto; }
+thead { display: table-header-group; }
+table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; break-inside: auto; text-align: left; }
+table.md-table td { min-width: 32px; }
+.CodeMirror-gutters { border-right: 0px; background-color: inherit; }
+.CodeMirror-linenumber { user-select: none; }
+.CodeMirror { text-align: left; }
+.CodeMirror-placeholder { opacity: 0.3; }
+.CodeMirror pre { padding: 0px 4px; }
+.CodeMirror-lines { padding: 0px; }
+div.hr:focus { cursor: none; }
+#write pre { white-space: pre-wrap; }
+#write.fences-no-line-wrapping pre { white-space: pre; }
+#write pre.ty-contain-cm { white-space: normal; }
+.CodeMirror-gutters { margin-right: 4px; }
+.md-fences { font-size: 0.9rem; display: block; break-inside: avoid; text-align: left; overflow: visible; white-space: pre; background: inherit; position: relative !important; }
+.md-diagram-panel { width: 100%; margin-top: 10px; text-align: center; padding-top: 0px; padding-bottom: 8px; overflow-x: auto; }
+#write .md-fences.mock-cm { white-space: pre-wrap; }
+.md-fences.md-fences-with-lineno { padding-left: 0px; }
+#write.fences-no-line-wrapping .md-fences.mock-cm { white-space: pre; overflow-x: auto; }
+.md-fences.mock-cm.md-fences-with-lineno { padding-left: 8px; }
+.CodeMirror-line, twitterwidget { break-inside: avoid; }
+.footnotes { opacity: 0.8; font-size: 0.9rem; margin-top: 1em; margin-bottom: 1em; }
+.footnotes + .footnotes { margin-top: 0px; }
+.md-reset { margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: top; background: 0px 0px; text-decoration: none; text-shadow: none; float: none; position: static; width: auto; height: auto; white-space: nowrap; cursor: inherit; -webkit-tap-highlight-color: transparent; line-height: normal; font-weight: 400; text-align: left; box-sizing: content-box; direction: ltr; }
+li div { padding-top: 0px; }
+blockquote { margin: 1rem 0px; }
+li .mathjax-block, li p { margin: 0.5rem 0px; }
+li { margin: 0px; position: relative; }
+blockquote > :last-child { margin-bottom: 0px; }
+blockquote > :first-child, li > :first-child { margin-top: 0px; }
+.footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; white-space: normal; }
+#write .footnote-line { white-space: pre-wrap; }
+@media print {
+  body, html { border: 1px solid transparent; height: 99%; break-after: avoid; break-before: avoid; font-variant-ligatures: no-common-ligatures; }
+  #write { margin-top: 0px; padding-top: 0px; border-color: transparent !important; }
+  .typora-export * { -webkit-print-color-adjust: exact; }
+  html.blink-to-pdf { font-size: 13px; }
+  .typora-export #write { padding-left: 32px; padding-right: 32px; padding-bottom: 0px; break-after: avoid; }
+  .typora-export #write::after { height: 0px; }
+}
+.footnote-line { margin-top: 0.714em; font-size: 0.7em; }
+a img, img a { cursor: pointer; }
+pre.md-meta-block { font-size: 0.8rem; min-height: 0.8rem; white-space: pre-wrap; background: rgb(204, 204, 204); display: block; overflow-x: hidden; }
+p > .md-image:only-child:not(.md-img-error) img, p > img:only-child { display: block; margin: auto; }
+#write.first-line-indent p > .md-image:only-child:not(.md-img-error) img { left: -2em; position: relative; }
+p > .md-image:only-child { display: inline-block; width: 100%; }
+#write .MathJax_Display { margin: 0.8em 0px 0px; }
+.md-math-block { width: 100%; }
+.md-math-block:not(:empty)::after { display: none; }
+[contenteditable="true"]:active, [contenteditable="true"]:focus, [contenteditable="false"]:active, [contenteditable="false"]:focus { outline: 0px; box-shadow: none; }
+.md-task-list-item { position: relative; list-style-type: none; }
+.task-list-item.md-task-list-item { padding-left: 0px; }
+.md-task-list-item > input { position: absolute; top: 0px; left: 0px; margin-left: -1.2em; margin-top: calc(1em - 10px); border: none; }
+.math { font-size: 1rem; }
+.md-toc { min-height: 3.58rem; position: relative; font-size: 0.9rem; border-radius: 10px; }
+.md-toc-content { position: relative; margin-left: 0px; }
+.md-toc-content::after, .md-toc::after { display: none; }
+.md-toc-item { display: block; color: rgb(65, 131, 196); }
+.md-toc-item a { text-decoration: none; }
+.md-toc-inner:hover { text-decoration: underline; }
+.md-toc-inner { display: inline-block; cursor: pointer; }
+.md-toc-h1 .md-toc-inner { margin-left: 0px; font-weight: 700; }
+.md-toc-h2 .md-toc-inner { margin-left: 2em; }
+.md-toc-h3 .md-toc-inner { margin-left: 4em; }
+.md-toc-h4 .md-toc-inner { margin-left: 6em; }
+.md-toc-h5 .md-toc-inner { margin-left: 8em; }
+.md-toc-h6 .md-toc-inner { margin-left: 10em; }
+@media screen and (max-width: 48em) {
+  .md-toc-h3 .md-toc-inner { margin-left: 3.5em; }
+  .md-toc-h4 .md-toc-inner { margin-left: 5em; }
+  .md-toc-h5 .md-toc-inner { margin-left: 6.5em; }
+  .md-toc-h6 .md-toc-inner { margin-left: 8em; }
+}
+a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; }
+.footnote-line a:not(.reversefootnote) { color: inherit; }
+.md-attr { display: none; }
+.md-fn-count::after { content: "."; }
+code, pre, samp, tt { font-family: var(--monospace); }
+kbd { margin: 0px 0.1em; padding: 0.1em 0.6em; font-size: 0.8em; color: rgb(36, 39, 41); background: rgb(255, 255, 255); border: 1px solid rgb(173, 179, 185); border-radius: 3px; box-shadow: rgba(12, 13, 14, 0.2) 0px 1px 0px, rgb(255, 255, 255) 0px 0px 0px 2px inset; white-space: nowrap; vertical-align: middle; }
+.md-comment { color: rgb(162, 127, 3); opacity: 0.8; font-family: var(--monospace); }
+code { text-align: left; vertical-align: initial; }
+a.md-print-anchor { white-space: pre !important; border-width: initial !important; border-style: none !important; border-color: initial !important; display: inline-block !important; position: absolute !important; width: 1px !important; right: 0px !important; outline: 0px !important; background: 0px 0px !important; text-decoration: initial !important; text-shadow: initial !important; }
+.md-inline-math .MathJax_SVG .noError { display: none !important; }
+.html-for-mac .inline-math-svg .MathJax_SVG { vertical-align: 0.2px; }
+.md-math-block .MathJax_SVG_Display { text-align: center; margin: 0px; position: relative; text-indent: 0px; max-width: none; max-height: none; min-height: 0px; min-width: 100%; width: auto; overflow-y: hidden; display: block !important; }
+.MathJax_SVG_Display, .md-inline-math .MathJax_SVG_Display { width: auto; margin: inherit; display: inline-block !important; }
+.MathJax_SVG .MJX-monospace { font-family: var(--monospace); }
+.MathJax_SVG .MJX-sans-serif { font-family: sans-serif; }
+.MathJax_SVG { display: inline; font-style: normal; font-weight: 400; line-height: normal; zoom: 90%; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; overflow-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; }
+.MathJax_SVG * { transition: none 0s ease 0s; }
+.MathJax_SVG_Display svg { vertical-align: middle !important; margin-bottom: 0px !important; margin-top: 0px !important; }
+.os-windows.monocolor-emoji .md-emoji { font-family: "Segoe UI Symbol", sans-serif; }
+.md-diagram-panel > svg { max-width: 100%; }
+[lang="flow"] svg, [lang="mermaid"] svg { max-width: 100%; height: auto; }
+[lang="mermaid"] .node text { font-size: 1rem; }
+table tr th { border-bottom: 0px; }
+video { max-width: 100%; display: block; margin: 0px auto; }
+iframe { max-width: 100%; width: 100%; border: none; }
+.highlight td, .highlight tr { border: 0px; }
+svg[id^="mermaidChart"] { line-height: 1em; }
+mark { background: rgb(255, 255, 0); color: rgb(0, 0, 0); }
+.md-html-inline .md-plain, .md-html-inline strong, mark .md-inline-math, mark strong { color: inherit; }
+mark .md-meta { color: rgb(0, 0, 0); opacity: 0.3 !important; }
+
+
+:root {
+    --side-bar-bg-color: #fafafa;
+    --control-text-color: #777;
+}
+
+@include-when-export url(https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext);
+
+html {
+    font-size: 16px;
+}
+
+body {
+    font-family: "Open Sans","Clear Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+    color: rgb(51, 51, 51);
+    line-height: 1.6;
+}
+
+#write {
+    max-width: 860px;
+  	margin: 0 auto;
+  	padding: 30px;
+    padding-bottom: 100px;
+}
+
+@media only screen and (min-width: 1400px) {
+	#write {
+		max-width: 1024px;
+	}
+}
+
+@media only screen and (min-width: 1800px) {
+	#write {
+		max-width: 1200px;
+	}
+}
+
+#write > ul:first-child,
+#write > ol:first-child{
+    margin-top: 30px;
+}
+
+a {
+    color: #4183C4;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    position: relative;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    line-height: 1.4;
+    cursor: text;
+}
+h1:hover a.anchor,
+h2:hover a.anchor,
+h3:hover a.anchor,
+h4:hover a.anchor,
+h5:hover a.anchor,
+h6:hover a.anchor {
+    text-decoration: none;
+}
+h1 tt,
+h1 code {
+    font-size: inherit;
+}
+h2 tt,
+h2 code {
+    font-size: inherit;
+}
+h3 tt,
+h3 code {
+    font-size: inherit;
+}
+h4 tt,
+h4 code {
+    font-size: inherit;
+}
+h5 tt,
+h5 code {
+    font-size: inherit;
+}
+h6 tt,
+h6 code {
+    font-size: inherit;
+}
+h1 {
+    padding-bottom: .3em;
+    font-size: 2.25em;
+    line-height: 1.2;
+    border-bottom: 1px solid #eee;
+}
+h2 {
+   padding-bottom: .3em;
+    font-size: 1.75em;
+    line-height: 1.225;
+    border-bottom: 1px solid #eee;
+}
+h3 {
+    font-size: 1.5em;
+    line-height: 1.43;
+}
+h4 {
+    font-size: 1.25em;
+}
+h5 {
+    font-size: 1em;
+}
+h6 {
+   font-size: 1em;
+    color: #777;
+}
+p,
+blockquote,
+ul,
+ol,
+dl,
+table{
+    margin: 0.8em 0;
+}
+li>ol,
+li>ul {
+    margin: 0 0;
+}
+hr {
+    height: 2px;
+    padding: 0;
+    margin: 16px 0;
+    background-color: #e7e7e7;
+    border: 0 none;
+    overflow: hidden;
+    box-sizing: content-box;
+}
+
+li p.first {
+    display: inline-block;
+}
+ul,
+ol {
+    padding-left: 30px;
+}
+ul:first-child,
+ol:first-child {
+    margin-top: 0;
+}
+ul:last-child,
+ol:last-child {
+    margin-bottom: 0;
+}
+blockquote {
+    border-left: 4px solid #dfe2e5;
+    padding: 0 15px;
+    color: #777777;
+}
+blockquote blockquote {
+    padding-right: 0;
+}
+table {
+    padding: 0;
+    word-break: initial;
+}
+table tr {
+    border-top: 1px solid #dfe2e5;
+    margin: 0;
+    padding: 0;
+}
+table tr:nth-child(2n),
+thead {
+    background-color: #f8f8f8;
+}
+table tr th {
+    font-weight: bold;
+    border: 1px solid #dfe2e5;
+    border-bottom: 0;
+    margin: 0;
+    padding: 6px 13px;
+}
+table tr td {
+    border: 1px solid #dfe2e5;
+    margin: 0;
+    padding: 6px 13px;
+}
+table tr th:first-child,
+table tr td:first-child {
+    margin-top: 0;
+}
+table tr th:last-child,
+table tr td:last-child {
+    margin-bottom: 0;
+}
+
+.CodeMirror-lines {
+    padding-left: 4px;
+}
+
+.code-tooltip {
+    box-shadow: 0 1px 1px 0 rgba(0,28,36,.3);
+    border-top: 1px solid #eef2f2;
+}
+
+.md-fences,
+code,
+tt {
+    border: 1px solid #e7eaed;
+    background-color: #f8f8f8;
+    border-radius: 3px;
+    padding: 0;
+    padding: 2px 4px 0px 4px;
+    font-size: 0.9em;
+}
+
+code {
+    background-color: #f3f4f4;
+    padding: 0 2px 0 2px;
+}
+
+.md-fences {
+    margin-bottom: 15px;
+    margin-top: 15px;
+    padding-top: 8px;
+    padding-bottom: 6px;
+}
+
+
+.md-task-list-item > input {
+  margin-left: -1.3em;
+}
+
+@media print {
+    html {
+        font-size: 13px;
+    }
+    table,
+    pre {
+        page-break-inside: avoid;
+    }
+    pre {
+        word-wrap: break-word;
+    }
+}
+
+.md-fences {
+	background-color: #f8f8f8;
+}
+#write pre.md-meta-block {
+	padding: 1rem;
+    font-size: 85%;
+    line-height: 1.45;
+    background-color: #f7f7f7;
+    border: 0;
+    border-radius: 3px;
+    color: #777777;
+    margin-top: 0 !important;
+}
+
+.mathjax-block>.code-tooltip {
+	bottom: .375rem;
+}
+
+.md-mathjax-midline {
+    background: #fafafa;
+}
+
+#write>h3.md-focus:before{
+	left: -1.5625rem;
+	top: .375rem;
+}
+#write>h4.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+#write>h5.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+#write>h6.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+.md-image>.md-meta {
+    /*border: 1px solid #ddd;*/
+    border-radius: 3px;
+    padding: 2px 0px 0px 4px;
+    font-size: 0.9em;
+    color: inherit;
+}
+
+.md-tag {
+    color: #a7a7a7;
+    opacity: 1;
+}
+
+.md-toc { 
+    margin-top:20px;
+    padding-bottom:20px;
+}
+
+.sidebar-tabs {
+    border-bottom: none;
+}
+
+#typora-quick-open {
+    border: 1px solid #ddd;
+    background-color: #f8f8f8;
+}
+
+#typora-quick-open-item {
+    background-color: #FAFAFA;
+    border-color: #FEFEFE #e5e5e5 #e5e5e5 #eee;
+    border-style: solid;
+    border-width: 1px;
+}
+
+/** focus mode */
+.on-focus-mode blockquote {
+    border-left-color: rgba(85, 85, 85, 0.12);
+}
+
+header, .context-menu, .megamenu-content, footer{
+    font-family: "Segoe UI", "Arial", sans-serif;
+}
+
+.file-node-content:hover .file-node-icon,
+.file-node-content:hover .file-node-open-state{
+    visibility: visible;
+}
+
+.mac-seamless-mode #typora-sidebar {
+    background-color: #fafafa;
+    background-color: var(--side-bar-bg-color);
+}
+
+.md-lang {
+    color: #b4654d;
+}
+
+.html-for-mac .context-menu {
+    --item-hover-bg-color: #E6F0FE;
+}
+
+#md-notification .btn {
+    border: 0;
+}
+
+.dropdown-menu .divider {
+    border-color: #e5e5e5;
+}
+
+.ty-preferences .window-content {
+    background-color: #fafafa;
+}
+
+.ty-preferences .nav-group-item.active {
+    color: white;
+    background: #999;
+}
+
+
+</style>
+</head>
+<body class='typora-export os-windows' >
+<div  id='write'  class = 'is-node'><h1><a name="albert-a-lite-bert-for-self-supervised-learning-of-language-representations" class="md-header-anchor"></a><span>ALBERT: A LITE BERT FOR SELF-SUPERVISED LEARNING OF LANGUAGE REPRESENTATIONS</span></h1><h2><a name="摘要" class="md-header-anchor"></a><span>摘要</span></h2><p><span>在预训练自然语言表示时增加模型大小通常会提高下游任务的性能。 但是，由于 </span><code>GPU</code><span> / </span><code>TPU</code><span> 内存的限制，更长的训练时间以及意外的模型降级，在某些时候，进一步的增加模型大小变得更加困难。 为了解决这些问题，我们提出了两种减少参数的技术，以降低内存消耗并提高 </span><code>BERT</code><span> 的训练速度 (Devlin et al., 2019). 。 全面的实验证据表明，与原始 </span><code>BERT</code><span> 相比，我们提出的方法所构建的模型可扩展性更好。 我们还使用了一个专注于建模句子间的连贯性的自监督损失，结果表明该损失始终可以提升多句子输入的下游任务的性能。 最后，我们的最佳模型在 </span><code>GLUE</code><span>，</span><code>RACE</code><span> 和 </span><code>SQuAD</code><span> 基准上建立了最新的技术成果，而参数参数却比 </span><code>BERT-large</code><span> 少。 </span></p><h2><a name="1引言" class="md-header-anchor"></a><span>1引言</span></h2><p><span>全网络预训练（Radford et al., 2018; Devlin et al., 2019）在语言表示学习方面取得了一系列突破。许多非平凡的 </span><code>NLP</code><span> 任务，包括那些训练数据有限的任务，都已从这些预先训练的模型中受益匪浅。这些突破最令人信服的迹象之一是针对中国的中学和高中英语考试而设计的阅读理解任务 </span><code>RACE</code><span> 测试（Lai et al., 2017）上机器性能的发展：最初描述了任务并制定建模挑战报告，然后将最新机器的准确性提高到44.1％；最新公布的结果报告其模型性能为83.2％（Liu et al., 2019）；我们在这里所做的工作将其提高到了89.4％，惊人的45.3％的提高，这主要归功于我们目前构建的高性能的预训练语言表示的能力。</span></p><p><span>这些改进的证据表明，大型网络对于实现最佳性能至关重要（Devlin et al., 2019; Radford et al., 2019）。对大型模型进行预训练并将其蒸馏成更小的模型（Sunetal.,2019;Turcetal., 2019）已普遍应用于实际应用。考虑到模型大小的重要性，我们想问的是：拥有更好的 </span><code>NLP</code><span> 模型和拥有更大的模型一样容易吗？</span></p><p><span>回答此问题的障碍是可用硬件的内存限制。鉴于当前最先进的模型通常具有数亿甚至数十亿个参数，当我们尝试扩展模型时，很容易遇到这些限制。在分布式训练中，由于通信开销与模型中的参数数量成正比，因此训练速度也可能受到显着影响。我们还观察到，仅仅增加诸如 </span><code>BERT-large</code><span> 之类的模型的隐藏层大小（Devlin et al., 2019）可能会导致性能下降。表1和图1给出了一个典型示例，在该示例中，我们将 </span><code>BERT-large</code><span> 的隐藏层的大小增加了2倍得到 </span><code>BERT-xlarge</code><span> 模型，然而该 </span><code>BERT-xlarge</code><span>  模型得到了较差的结果。 </span></p><p><img src="image\Figure1.png" referrerpolicy="no-referrer" alt="Figure1" title=" 图1：BERT-large 和 BERT-xlarge（隐藏层大小比 BERT-large 大2倍）的训练损失（左）和验证集 MLM 精度（右）。 较大的模型具有较低的 MLM 精度，同时没有明显的过拟合迹象。 "></p><center>
+<font size="2" color="black">图1：BERT-large 和 BERT-xlarge（隐藏层大小比 BERT-large 大2倍）的训练损失（左）和验证集 MLM 精度（右）。 较大的模型具有较低的 MLM 精度，同时没有明显的过拟合迹象。</font>
+</center><p><img src="image\Table1.png" referrerpolicy="no-referrer" alt="Table1" title=" 表1：增加 BERT-large的隐藏层大小会导致在RACE上的性能变差。 "></p><center>
+<font size="2" color="black">表1：增加 BERT-large 的隐藏层大小会导致在RACE上的性能变差</font>
+</center><p><span>解决上述问题的现有解决方案包括模型并行化（Shoeybi et al., 2019）和智能的内存管理（Chen et al., 2016; Gomez et al., 2017）。这些解决方案解决了内存限制问题，但没有解决通信开销和模型降级的问题。在本文中，我们通过设计具有比传统 </span><code>BERT</code><span> 架构少很多参数的 </span><code>Lite BERT</code><span>（</span><code>ALBERT</code><span>）架构来解决所有上述问题。 </span><code>ALBERT</code><span> 结合了两种参数缩减技术，这些技术可消除缩放预训练模型时的主要障碍。第一个是因式分解参数化。通过将大的词汇嵌入矩阵分解为两个小的矩阵，我们将隐藏层的大小与词汇嵌入的大小分开。这种分隔使得在不显着增加词汇表嵌入参数大小的情况下，更容易增加隐藏层的大小。第二种技术是跨层参数共享。此技术可防止参数数量随着网络的深度而增长。两种技术都可以显着减少 </span><code>BERT</code><span> 的参数数量，而不会严重影响性能，从而提高了参数效率。与 </span><code>BERT-large</code><span> 相似的 </span><code>ALBERT</code><span> 配置参数减少了18倍，并且训练速度提高了约1.7倍。参数减少技术还可以充当正则化的一种形式，从而稳定训练并有助于泛化。为了进一步提高 </span><code>ALBERT</code><span> 的性能，我们还引入了一种自监督的句子顺序预测损失（</span><code>SOP</code><span>）。 </span><code>SOP</code><span> 主要关注句子间的连贯性，旨在解决原始 </span><code>BERT</code><span> 中提出的下一个句子预测（</span><code>NSP</code><span>）损失的无效性（Yang et al., 2019; Liu et al., 2019）。由于这些设计决策，可以适应更大的 </span><code>ALBERT</code><span> 配置，这些配置的参数仍比 </span><code>BERT</code><span> 较大，但性能却明显好于BERT。我们在著名的 </span><code>GLUE</code><span>，</span><code>SQuAD</code><span> 和 </span><code>RACE</code><span> 基准上建立了最新的最新结果，以帮助人们理解自然语言。具体来说，我们将 </span><code>RACE</code><span> 精度提高到89.4％，将 </span><code>GLUE</code><span> 基准提高到89.4%，将 </span><code>SQuAD 2.0</code><span> 的 </span><code>F1</code><span> 得分提高到92.2%。 </span></p><h2><a name="2-相关工作" class="md-header-anchor"></a><span>2 相关工作</span></h2><h3><a name="21-扩大自然语言的表示学习" class="md-header-anchor"></a><span>2.1 扩大自然语言的表示学习 </span></h3><p><span>自然语言的表示学习已被证明对许多 </span><code>NLP</code><span> 任务有用，并被广泛采用 (Mikolov et al., 2013; Le &amp; Mikolov, 2014; Peters et al., 2018; Devlin et al., 2019; Radford et al., 2018; 2019)。 过去两年中最显着的变化之一是从预训练词嵌入 (无论是标准的(Mikolov et al., 2013; Penningtonetal.,2014）还是上下文的（McCannetal.,2017;Petersetal.,2018)) 转变为全网络预训练，然后进行任务特定的微调 (Radford et al., 2018; Devlin et al., 2019)。在这些工作中，经常表明更大的模型尺寸可以提高性能。例如，Devlin et al. (2019) 表明，在三个选定的自然语言理解任务中，使用较大的隐藏层大小，更多的隐藏层以及更多的注意力头数总是可以提高性能。但是，隐藏层大小都是最大为1024。我们表明，在相同设置下，将隐藏层大小增加到2048会导致模型降级，从而导致性能下降。因此，扩大自然语言的表示学习并不像简单地增加模型大小那样容易。另外，由于计算限制，尤其是在 </span><code>GPU</code><span> / </span><code>TPU</code><span> 内存限制方面，很难对大型模型进行实验。鉴于当前最佳的模型通常具有数亿甚至数十亿个参数，因此很容易就达到内存限制。为了解决这个问题，Chen et al. (2016) 提出了一种称为梯度检查点的方法，以减少额外的前向传递为代价的亚线性存储需求。Gomez et al. (2017) 提出了一种从下一层重建每个层的激活的方法，这样它们就不需要存储中间激活。两种方法都以速度为代价减少了内存消耗。相反，我们的参数减少技术可减少内存消耗并提高训练速度。 </span></p><h3><a name="22跨层参数共享" class="md-header-anchor"></a><span>2.2跨层参数共享</span></h3><p><span>跨层共享参数的想法先前已使用 </span><code>Transformer</code><span>架构（Vaswanietal。，2017）进行了探索，但此先前的工作重点是针对标准 </span><code>encoder-decoder</code><span> 任务的训练，而不是 </span><code>pretraining</code><span>/</span><code>ﬁnetuning</code><span> 。与我们的观察结果不同，Dehghani et al. (2018) 表明具有跨层参数共享的网络（</span><code>Universal Transformer</code><span>，</span><code>UT</code><span>）在语言建模和主谓词一致方面比标准 </span><code>Transformer</code><span> 具有更好的性能。最近， Bai et al. (2019) 提出了</span><code>Transformer</code><span>网络的深度均衡模型（</span><code>DQE</code><span>），并证明 </span><code>DQE</code><span> 可以达到一个平衡点，对于该平衡点，某层的输入嵌入和输出嵌入保持相同。我们的观察表明，我们的嵌入是振荡的而不是收敛的。 Hao et al. (2019) 将参数共享 </span><code>Transformer</code><span> 与标准</span><code>Transformer</code><span>相结合，这进一步增加了标准 </span><code>Transformer</code><span> 的参数数量。</span></p><h3><a name="23句子排序目标" class="md-header-anchor"></a><span>2.3句子排序目标</span></h3><p><code>ALBERT</code><span> 使用了预测两个连续文本段的顺序的预训练损失。几位研究人员已经尝试过与话语连贯性相似的预训练目标。话语中的连贯性和衔接性已得到广泛研究，并且已经发现许多现象将相邻的文本片段连接起来 (Hobbs, 1979; Halliday &amp; Hasan,1976;Groszetal.,1995)。在实践中发现的大多数目标都非常简单。通过使用句子编码来预测相邻句子中的单词，可以学习 </span><code>Skip-thought</code><span> (Kirosetal.,2015) 和 </span><code>FastSent</code><span> (Hilletal.,2016) 的句子嵌入。句子嵌入学习的其他目标包括预测未来的句子而不是仅预测邻居 (Ganetal.,2017) 和预测显式的语篇标记 (Jernite et al., 2017; Nie et al., 2019)。我们的损失与 Jernite et al. (2017) 的句子排序目标最相似。 其中学习句子嵌入以确定两个连续句子的顺序。但是，与上述大多数工作不同，我们的损失是根据文本段而不是句子来定义的。 </span><code>BERT</code><span>（Devlin et al., 2019）使用损失的依据是预测对中的第二个片段是否已与另一个文档中的一个片段交换。我们在实验中比较了这种损失，发现句子排序是一项更具挑战性的预训练任务，对某些下游任务更有用。与我们的工作同时， Wang et al. (2019) 也尝试预测文本的两个连续段的顺序，但他们将其与原始的下一句预测结合在三向分类任务中，而不是根据经验对两者进行比较。 </span></p><h2><a name="3-albert的设计" class="md-header-anchor"></a><span>3 ALBERT的设计</span></h2><p><span>在本节中，我们介绍 </span><code>ALBERT</code><span> 的设计，并提供与原始</span><code>BERT</code><span>架构（Devlin et al., 2019）相应配置的量化比较。</span></p><h3><a name="31模型架构选择" class="md-header-anchor"></a><span>3.1模型架构选择</span></h3><p><code>ALBERT</code><span> 架构的主干与 </span><code>BERT</code><span> 相似，因为它使用了具有 </span><code>GELU nonlinearities</code><span> （Hendrycks &amp; Gimpel, 2016）的 </span><code>Transformer</code><span> 编码器(Vaswani et al.,2017)。 我们遵循 </span><code>BERT</code><span> 符号约定，将 </span><code>vocabulary embedding</code><span>  大小表示为 </span><code>E</code><span>，将编码器层的数量表示为 </span><code>L</code><span>，将隐藏大小表示为 </span><code>H</code><span>。根据 Devlin et al.(2019)，我们将 </span><code>feed-forward/filter</code><span>  大小设置为 </span><code>4H</code><span>，</span><code>attention heads</code><span> 设为 </span><code>H=64</code><span>。</span></p><p><code>ALBERT</code><span>对 </span><code>BERT</code><span> 的设计选择做出了三点主要贡献</span></p><p><strong><span>Factorized embedding parameterization. （因式分解嵌入矩阵参数化）.</span></strong><span> 在 </span><code>BERT</code><span> 中，以及随后的建模改进（例如 </span><code>XLNet</code><span> (Yang et al.,2019)和 </span><code>RoBERTa</code><span> （Liu et al.,2019）中，</span><code>WordPiece</code><span> 嵌入大小 </span><code>E</code><span> 与隐藏层大小 </span><code>H</code><span>（即</span><code>E≡H</code><span>）相关联。出于建模和实际原因，效果欠佳，如下所示。</span></p><p><span>从建模角度看，</span><code>WordPiece embeddings</code><span> 旨在学习上下文无关的表示，而 </span><code>hidden-layer embeddings</code><span> 旨在学习上下文相关的表示。正如上下文长度实验（Liu et al.,2019）所表明的那样，类似 </span><code>BERT</code><span> 的表征的力量来自上下文的使用，以提供学习此类依赖于上下文表征的信号。这样，将 </span><code>WordPiece embeddings</code><span> 的大小</span><code>E</code><span>与</span><code>hidden-layer</code><span> 大小</span><code>H</code><span>脱开，这可以使我们更有效地利用由建模需求指示的所有模型参数，从而指示 </span><code>H&gt;&gt;E</code><span>。</span></p><p><span>从实践的角度来看，自然语言处理通常要求词汇量 </span><code>V</code><span> 很大。如果</span><code>E≡H</code><span>，则增加 </span><code>H</code><span> 会增加嵌入矩阵的大小 </span><code>V×E</code><span>。这很容易形成具有数十亿个参数的模型，其中大多数参数仅在训练期间稀疏更新。</span></p><p><span>因此，对于 </span><code>ALBERT</code><span>，我们使用嵌入参数的分解，将它们分解为两个较小的矩阵。与其直接将单热点向量直接投影到大小为 </span><code>H</code><span> 的隐藏空间中，不如将它们投影到大小为 </span><code>E</code><span> 的低维嵌入空间中，然后将其投影到隐藏空间中。通过这种分解，我们将嵌入参数从</span><code>O(V×H)</code><span>减少到 </span><code>O(V×E + E×H)</code><span> 。当 </span><code>H&gt;&gt;E</code><span> 时，此参数减小地非常明显。</span></p><p><strong><span>Cross-layer parameter sharing. （跨层参数共享）.</span></strong><span> 对于 </span><code>ALBERT</code><span>，我们提出了跨层参数共享作为提高参数效率的另一种方法。有多种共享参数的方式，例如，仅跨层共享前馈网络 </span><code>FFN</code><span> 的参数或仅共享 </span><code>attention</code><span> 层的参数。</span><code>ALBERT</code><span>默认跨层共享所有的参数。第4.5节的实验中，我们将此设计与其他策略进行了比较。</span></p><p><span>Dehghani et al.(2018)（</span><code>Universal Transformer,UT</code><span>）和 Bai et al.(2019)（</span><code>Deep Equilibrium Models,DQE</code><span>） 针对 </span><code>Transformer</code><span> 网络探索了类似的策略。 与我们的观察结果不同，Dehghani et al.(2018) 表明 </span><code>UT</code><span> 优于 </span><code>vanilla Transformer</code><span>。 Bai et al.(2019) 表明，它们的 </span><code>DQE</code><span> 达到了一个平衡点，对于该平衡点，特定层的输入和输出嵌入保持不变。 我们对</span><code>L2距离</code><span>和</span><code>余弦相似度</code><span>的测量表明，我们的嵌入是振荡的，而不是收敛的。</span></p><p><span>图2显示了使用 </span><code>BERT-large</code><span> 和 </span><code>ALBERT-large</code><span> 配置的每一层输入和输出嵌入的 </span><code>L2 距离</code><span>和 </span><code>余弦相似度</code><span>（参见表2）。我们观察到，与 </span><code>BERT</code><span> 相比，</span><code>ALBERT</code><span>从一层到另一层的过渡要平滑得多。这些结果表明，权重共享对稳定网络参数有影响。尽管与 </span><code>BERT</code><span> 相比，这两个指标都有所下降，但是即使经过24层，它们也不会收敛为0。这表明 </span><code>ALBERT</code><span> 参数的解决方案空间与</span><code>DQE</code><span>发现的空间有很大不同。</span></p><p><img src="image\Figure2.png" referrerpolicy="no-referrer" alt="Figure2" title=" BERT-large和ALBERT-large的每层输入和输出嵌入的L2距离和余弦相似度（以度为单位）"></p><center>
+<font size="2" color="black">图2 BERT-large 和 ALBERT-large 的各层输入和输出嵌入的 L2距离和余弦相似度(以度表示)。</font>
+</center><p><span> </span><strong><span>Inter-sentence coherence loss. （句子间连贯性损失）.</span></strong><span> 除了</span><code>掩码语言模型 Masked Language Model</code><span> 损失(Devlin et al.,2019)之外，</span><code>BERT</code><span> 还使用了另一种损失，称为</span><code>下一句预测</code><span> </span><code>NSP</code><span>。 </span><code>NSP</code><span>是一种二分类损失，用于预测原始文本中是否有两个片段连续出现，如下所示：通过从训练语料库中获取连续片段来创建正样本；负样本是通过将来自不同文档的句段配对而创建的；正样本和负样本均以相同的概率采样。</span><code>NSP</code><span> 目标旨在提高下游任务（例如自然语言推理）的性能，这些任务需要推理句子对之间的关系。然而，随后的研究（Yang et al., 2019; Liu et al.,2019）发现 </span><code>NSP</code><span> 的影响不可靠，因此决定去除它，这一决定得到了多项下游任务性能的改善的支持。</span></p><p><strong><span>我们推测，与 </span><code>MLM</code><span> 相比，</span><code>NSP</code><span> 失效的主要原因是其缺乏任务难度。按照规定，</span><code>NSP</code><span> 可以在单个任务中融合主题预测和连贯性预测。但是，与连贯性预测相比，主题预测更容易学习，并且与使用 </span><code>MLM</code><span>损失学习l的内容重叠更多。</span></strong></p><p><span>我们坚持认为句间建模是语言理解的一个重要方面，因此我们提出了一个主要基于连贯性的损失。也就是说，对于 </span><code>ALBERT</code><span>，我们使用了句子顺序预测 </span><code>SOP</code><span> 损失，它避免了主题预测，而侧重于建模句子间的连贯性。 </span><code>SOP</code><span>损失使用与 </span><code>BERT</code><span>（同一文档中的两个连续段）相同的技术作为正样本，而负样本使用与正样本相同的两个连续段，但顺序互换。这迫使模型学习关于话语级连贯性的细粒度区别。如我们在第4.6节中所示，事实证明 </span><code>NSP</code><span> 根本无法解决 </span><code>SOP</code><span> 任务（即最终学习了更容易的主题预测信号，并在 </span><code>SOP</code><span> 任务上以随机基线水平执行），而 </span><code>SOP</code><span>可以在一定程度上解决 </span><code>NSP</code><span> 任务，大概是基于分析错位的相干线索。结果，</span><code>ALBERT</code><span> 模型持续提高了多语句编码任务的下游任务性能。</span></p><h3><a name="32-模型设置" class="md-header-anchor"></a><span>3.2 模型设置</span></h3><p><span>表2给出了BERT和ALBERT模型在超参数设置上的差异。由于以上讨论的设计选择，ALBERT模型的参数尺寸比相应的BERT模型要小得多。 </span></p><p><img src="image/Table2.png" referrerpolicy="no-referrer" alt="Table2"></p><center>
+<font size="2" color="black">表2：本文对主要的 BERT 和 ALBERT 模型的结构进行了分析</font>
+</center><p><span>例如，与 </span><code>BERT-large</code><span> 相比，</span><code>ALBERT-large</code><span> 少了大约18倍的参数，前者是18M，后者是334M。如果我们 </span><code>BERT</code><span> 设置为 H = 2048 的超大尺寸，我们最终得到一个拥有12.7亿的模型参数，并且性能更差(</span><strong><span>图1</span></strong><span>)。相比之下,一个配置为H = 2048的 </span><code>ALBERT-xlarge</code><span> 只有59M参数，而一个配置为 H = 4096 的 </span><code>ALBERT-xxlarge</code><span> 有233M参数，即大约为70%的 </span><code>BERT-large</code><span> 参数。注意，对于 </span><code>ALBERT-xxlarge</code><span>，我们主要报告12层网络上的结果，因为24层网络（具有相同的配置）可以获得类似的结果，但在计算上更昂贵。</span></p><h2><a name="discussion" class="md-header-anchor"></a><span>DISCUSSION  </span></h2><p><span>虽然 </span><code>ALBERT-xxlarge</code><span> 的参数比 </span><code>BERT-large</code><span> 少，并且得到了更好的结果，但是由于它的结构更大，计算上更昂贵。下一步的重点是通过稀疏注意力(Child et al.， 2019)和块注意力(Shen et al.， 2018)等方法加快 </span><code>ALBERT</code><span> 的训练和推理速度。可以提供额外表示能力的正交研究线包括硬示例挖掘(Mikolov et al.,2013)和更有效的语言建模训练(Yang et al.,2019)。此外，尽管我们有令人信服的证据，句子顺序预测更有益于学习任务，并产生更好的语言表示，我们猜测可能有更多的维度没有被当前自监督训练损失捕获，这些维度可以创建额外的表示力。 </span></p><p>&nbsp;</p></div>
+</body>
+</html>
