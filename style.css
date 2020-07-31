@@ -16,6 +16,7 @@ header {
     color: #5c5c5c;
     background: rgb(255, 255, 255);
     box-shadow: 0 3px 6px -3px #bdbdbd;
+    background-image: url(images/background.jpg);
 }
 
 header p{
@@ -48,6 +49,7 @@ section a {
     border-bottom:3px solid #4285f4;
 
     cursor: pointer;
+    background-image: url(images/background.jpg);
 }
 
 
